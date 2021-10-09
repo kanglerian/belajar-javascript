@@ -8,13 +8,19 @@
 </head>
 <body>
     <script>
-        const usia = 23;
-if(usia > 25){
-    console.log("Usia saya lebih dari 25 tahun");
-} else if( usia >= 10 ) {
-    console.log("Usia saya dibawah 25 tahun tetapi lebih dari 10 tahun");
-} else {
-    console.log("Usia saya dibawah 25 tahun");
+       const characters = [
+    {name: "Ken the Ninja", age: 14},
+    {name: "Master Wooly", age: 100},
+    {name: "Ben the Ninja Ninja", age: 5}
+];
+
+for(let i = 0; i < characters.length; i++){
+    console.log("-----------------------");
+
+    const character = characters[i];
+
+    console.log(`Nama saya adalah ${character.name}`);
+    console.log(`Usia saya ${character.age} tahun`);
 }
     </script>
 </body>
