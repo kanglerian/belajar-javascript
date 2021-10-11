@@ -1,27 +1,34 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>JavaScript</title>
 </head>
+
 <body>
     <script>
-       const characters = [
-    {name: "Ken the Ninja", age: 14},
-    {name: "Master Wooly", age: 100},
-    {name: "Ben the Ninja Ninja", age: 5}
-];
-
-for(let i = 0; i < characters.length; i++){
-    console.log("-----------------------");
-
-    const character = characters[i];
-
-    console.log(`Nama saya adalah ${character.name}`);
-    console.log(`Usia saya ${character.age} tahun`);
-}
+        class Animal {
+            constructor(name, age) {
+                this.name = name;
+                this.age = age;
+            }
+            info() {
+                console.log(`My name is ${this.name}`);
+                console.log(`I'm ${this.age} years old`);
+            }
+        }
+        class Dog extends Animal {
+            getHumanAge() {
+                return this.age * 7;
+            }
+        }
+        const dog = new Dog("Leo", 4);
+        const humanAge = dog.getHumanAge();
+        console.log(humanAge);
     </script>
 </body>
+
 </html>

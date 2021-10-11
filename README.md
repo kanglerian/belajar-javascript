@@ -924,3 +924,415 @@ console.log(`The maximum value is ${max}`);
 ```console.
 The maximum value is 189
 ```
+
+## Basic of Classes
+
+### Objects and Functions
+
+Object juga dapat menjadi sebuah functions. Caranya adalah dengan menulis syntax seperi di bawah ini, juga untuk memanggil sebuah fungsi, kita hanya menuliskan `constantName.propertyName()`. Sebagai catatan, kita membutuhkan `()` setelah propery name untuk mengindikasikan bahwa ini adalah nilai function.
+
+```javascript
+const constantName = {
+  propertyName: () => {
+    // your code
+  },
+};
+```
+
+```javascript
+const user = {
+  name: "Lerian Febriana",
+  greet: () => {
+    console.log("Hello!");
+  },
+};
+console.log(user.name);
+user.greet();
+```
+
+```console
+Lerian Febriana
+Hello!
+```
+
+### Apa itu Class?
+
+Kelas bisa diibaratkan adalah sebuah blueprint sebagai contoh, kita bisa efisien untuk menambahkan user data jika blueprintnya sudah ada.
+
+```javascript
+class user {}
+```
+
+### Making Instances
+
+Jika Class adalah sebuah blueprint, maka Instance bisa kita sebut adalah sebuah "object".
+
+```javascript
+class Animal {}
+const animal = new Animal();
+console.log(animal);
+```
+
+```console
+Animal {}
+```
+
+### Constructors
+
+Ini digunakan untuk memberikan sebuah initial values untuk instances baru. Untuk menambahkan `constructor` di class, maka kita bisa menuliskan `constructor() {}` di dalam `{}` brackets.
+
+```javascript
+class Animal {
+  constructor() {
+    console.log("Hello!");
+  }
+}
+const animal1 = new Animal();
+const animal2 = new Animal();
+```
+
+```console
+Hello!
+Hello!
+```
+
+### Adding Properties & Values
+
+Di dalam constructor, kita tambahkan informasi yang berhubungan dengan instance yang telah kita buat. Untuk menambahkan properties dan values di dalam sebuah constructor, maka kita bisa menuliskan `this.property = value`
+
+```javascript
+class Animal {
+  constructor() {
+    this.name = "Leo";
+    this.age = 3;
+  }
+}
+const animal = new Animal();
+
+console.log(`Name: ${animal.name}`);
+console.log(`Age: ${animal.age}`);
+```
+
+```console
+Name: Leo
+Age: 3
+```
+
+### Changing Values for All Instances
+
+Sebelumnya, kita telah memberikan intial values di dalam sebuah constructor. Namun masalahnya, sebuah instance yang kita buat semua nilainya akan sama `"Leo"` dan `"3"` nah sekarang, kita akan belajar bagaimana cara mengubah nilai tersebut sesuai dengan instancesnya.
+
+```javascript
+class Animal {
+  constructor(name, age) {
+    this.name = name;
+    this.age = age;
+  }
+}
+const animal = new Animal("Mocha", 8);
+
+console.log(`Name: ${animal.name}`);
+console.log(`Age: ${animal.age}`);
+```
+
+```console
+Name: Mocha
+Age: 8
+```
+
+### Methods
+
+Functions yang ada di dalam class kita bisa sebut dengan `methods`. Methods itu seperti "actions" dalam sebuah instances.
+
+```javascript
+class ClassName {
+  constructor() {
+    // your code
+  }
+  methodName() {
+    // your method
+  }
+}
+```
+
+```javascript
+class Animal {
+  constructor(name, age) {
+    // your code
+  }
+  greet() {
+    console.log("Hello!");
+  }
+}
+const animal = new Animal("Leo", 3);
+animal.greet();
+```
+
+```console
+Hello!
+```
+
+### Using Values within Methods
+
+```javascript
+class Animal {
+  constructor(name, age) {
+    this.name = name;
+    this.age = age;
+  }
+  info() {
+    console.log(`My name is ${this.name}`);
+    console.log(`I'm ${this.age} years old`);
+  }
+}
+const animal = new Animal("Leo", 3);
+animal.info();
+```
+
+```console
+My name is Leo
+I'm 3 years old
+```
+
+### Using Methods within Methods
+
+```javascript
+class Animal {
+  greet() {
+    console.log("Hello!");
+  }
+  info() {
+    this.greet();
+  }
+}
+```
+
+```javascript
+class Animal {
+  constructor(name, age) {
+    this.name = name;
+    this.age = age;
+  }
+  info() {
+    this.greet();
+    console.log(`My name is ${this.name}`);
+    console.log(`I'm ${this.age} years old`);
+  }
+}
+const animal = new Animal("Leo", 3);
+animal.info();
+```
+
+```console
+Hello!
+My name is Leo
+I'm 3 years old
+```
+
+## Class Inheritance
+
+Kita telah membuat sebuah Animal class untuk mengatasi data animals. Sekarang, kita coba membuat sebuah Dog class spesifik untuk mengatasi data dogs. Ketika kamu akan membuat class yang sama dengan existing class, inheritance dapat sangat berguna!
+
+```javascript
+class Dog extends Animal {}
+```
+
+### Inherited Methods
+
+Dog Class mewarisi semua thods yang ada pada Animal class. Karena itu, meskipun tidak ada methods yang di deklarasikan di dalam Dog class, itu bisa kita pakai dengan menggunakan `info` method karena itu didefinisikan di Animal class.
+
+```javascript
+class Animal {
+  info() {
+    this.greet();
+    console.log(`My name is ${this.name}`);
+    console.log(`I'm ${this.age} years old`);
+  }
+}
+class Dog extends Animal {}
+
+const dog = new Dog("Lee", 4);
+dog.info();
+```
+
+### Adding Methods
+
+```javascript
+class Dog extends Animal {
+  getHumanAge() {
+    return this.age * 7;
+  }
+}
+const dog = new Dog("Leo", 4);
+const humanAge = dog.getHumanAge();
+console.log(humanAge);
+```
+
+```javascript
+class Animal {
+  constructor(name, age) {
+    this.name = name;
+    this.age = age;
+  }
+
+  greet() {
+    console.log("Hello");
+  }
+
+  info() {
+    this.greet();
+    console.log(`My name is ${this.name}`);
+    console.log(`I'm ${this.age} years old`);
+  }
+}
+
+class Dog extends Animal {
+  // Add the getHumanAge method
+  getHumanAge() {
+    return this.age * 7;
+  }
+}
+
+const dog = new Dog("Leo", 4);
+dog.info();
+
+// Call the dog instance's getHumanAge method
+const humanAge = dog.getHumanAge();
+
+// Output 「I am __ years old in human years」
+console.log(`I am ${humanAge} years old in human years`);
+```
+
+```console
+Hello,
+My name is Leo
+I'm 4 years old
+I'm 28 years old in human years
+```
+
+### Methods of the Same Name
+
+Jika ada methods yang sama, maka diutamakan class yang dipanggil atau childnya.
+
+```javascript
+class Animal {
+  constructor(name, age) {
+    this.name = name;
+    this.age = age;
+  }
+
+  greet() {
+    console.log("Hello");
+  }
+
+  info() {
+    this.greet();
+    console.log(`My name is ${this.name}`);
+    console.log(`I'm ${this.age} years old`);
+  }
+}
+
+class Dog extends Animal {
+  // Add the info method
+  info() {
+    this.greet();
+    console.log(`My name is ${this.name}`);
+    console.log(`I'm ${this.age} years old`);
+
+    const humanAge = this.getHumanAge();
+    console.log(`I am ${humanAge} years old in human years`);
+  }
+
+  getHumanAge() {
+    return this.age * 7;
+  }
+}
+
+const dog = new Dog("Leo", 4);
+dog.info();
+```
+
+```console
+Hello,
+My name is Leo
+I'm 4 years old
+I'm 28 years old in human years
+```
+
+### Overriding Constructor
+
+Jika kita ingin menggunakan Constructor yang ada pada parent dan ingin menggunakannya pada child class, maka gunakan `super()` di dalam constructor.
+
+```javascript
+class Animal {
+  constructor(name, age) {
+    this.name = name;
+    this.age = age;
+  }
+}
+```
+
+```javascript
+class Dog extends Animal {
+  constructor(name, age, breed) {
+    super(name, age);
+
+    this.breed = breed;
+  }
+}
+```
+
+```javascript
+class Animal {
+  constructor(name, age) {
+    this.name = name;
+    this.age = age;
+  }
+
+  greet() {
+    console.log("Hello");
+  }
+
+  info() {
+    this.greet();
+    console.log(`My name is ${this.name}`);
+    console.log(`I'm ${this.age} years old`);
+  }
+}
+
+class Dog extends Animal {
+  // Add the constructor
+  constructor(name, age, breed) {
+    super(name, age);
+
+    this.breed = breed;
+  }
+
+  info() {
+    this.greet();
+    console.log(`My name is ${this.name}`);
+    // Ouptut 「I am a ____」
+    console.log(`I am a ${this.breed}`);
+
+    console.log(`I'm ${this.age} years old`);
+    const humanAge = this.getHumanAge();
+    console.log(`I am ${humanAge} years old in human years`);
+  }
+
+  getHumanAge() {
+    return this.age * 7;
+  }
+}
+
+// Pass the string "Chihuahua" as an argument
+const dog = new Dog("Leo", 4, "Chihuahua");
+dog.info();
+```
+
+```console
+Hello,
+My name is Leo
+I am a Chihuahua
+I'm 4 years old
+I'm 28 years old in human years
+```
