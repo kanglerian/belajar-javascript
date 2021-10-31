@@ -1336,3 +1336,417 @@ I am a Chihuahua
 I'm 4 years old
 I'm 28 years old in human years
 ```
+
+# JavaScript Study V
+
+Disini kita akan belajar menggunakan npm packages dan membuat sebuah project dengan beberapa file.
+
+In this lesson, you will learn how to divide JavaScript code into multiple files and combine them.
+By splitting the code into multiple files, you will be able to write code that is easy to maintain and update.
+You will also learn how to use a convenient feature called packages.
+
+## Separating Files
+
+As you add more code, it becomes difficult to manage in just one file. Because of this, multiple files are often used to manage a program and keep it organized. Here, we will split the code into three files: script.js that runs the main program, animal.js that defines the Animal class, and dog.js that defines the Dog class.
+
+![](/img/v-separatingfiles.png)
+
+animal.js
+```javascript
+class Animal {
+  constructor(name, age) {
+    this.name = name;
+    this.age = age;
+  }
+
+  greet() {
+    console.log("Hello");
+  }
+
+  info() {
+    this.greet();
+    console.log(`My name is ${this.name}`);
+    console.log(`I'm ${this.age} years old`);
+  }
+}
+```
+
+dog.js
+```javascript
+class Dog extends Animal {
+  // Add the constructor
+  constructor(name, age, breed) {
+    super(name, age);
+
+    this.breed = breed;
+  }
+
+  info() {
+    this.greet();
+    console.log(`My name is ${this.name}`);
+    // Ouptut 「I am a ____」
+    console.log(`I am a ${this.breed}`);
+
+    console.log(`I'm ${this.age} years old`);
+    const humanAge = this.getHumanAge();
+    console.log(`I am ${humanAge} years old in human years`);
+  }
+
+  getHumanAge() {
+    return this.age * 7;
+  }
+}
+```
+
+script.js
+```javascript
+const dog = new Dog("Leo", 4, "Chihuahua");
+dog.info();
+```
+
+```console
+Error...
+```
+
+### Kenapa Error?
+In the last exercise, an error occurred when you tried to split the file. This happened because values necessary to the file were removed when splitting it up. In the example below, an error message is displayed because the Animal class is not inside dog.js.
+
+The error when splitting files can be resolved by linking each of the files and passing the necessary values. In this case, you must enable the Animal class to be used in dog.js, and the Dog class to be used in script.js. From the next slide, let's look at how to link the files.
+
+![](/img/v-separatingfiles2.png)
+
+Export dari animal.js
+```javascript
+class Animal {
+.
+.
+.
+}
+export default Animal;
+```
+
+Import dari dog.js
+```javascript
+import Animal from "./animal";
+.
+.
+.
+```
+
+Jadi, seperti ini kode yang benar
+
+animal.js
+```javascript
+class Animal {
+  constructor(name, age) {
+    this.name = name;
+    this.age = age;
+  }
+
+  greet() {
+    console.log("Hello");
+  }
+
+  info() {
+    this.greet();
+    console.log(`My name is ${this.name}`);
+    console.log(`I'm ${this.age} years old`);
+  }
+}
+export default Animal;
+```
+
+dog.js
+```javascript
+import Animal from "./animal";
+
+class Dog extends Animal {
+  // Add the constructor
+  constructor(name, age, breed) {
+    super(name, age);
+
+    this.breed = breed;
+  }
+
+  info() {
+    this.greet();
+    console.log(`My name is ${this.name}`);
+    // Ouptut 「I am a ____」
+    console.log(`I am a ${this.breed}`);
+
+    console.log(`I'm ${this.age} years old`);
+    const humanAge = this.getHumanAge();
+    console.log(`I am ${humanAge} years old in human years`);
+  }
+
+  getHumanAge() {
+    return this.age * 7;
+  }
+}
+export default Dog;
+```
+
+script.js
+```javascript
+import Dog from "./dog";
+
+const dog = new Dog("Leo", 4, "Chihuahua");
+dog.info();
+```
+
+```console
+Hello,
+My name is Leo
+I am a Chihuahua
+I'm 4 years old
+I'm 28 years old in human years
+```
+
+### Exporting values
+
+Although we practiced exporting classes, classes are not all that you can export. Any kind of value such as strings, integers, or even functions can be exported. When exporting, export default constantName is written as you can see below. When importing, import constantName from "./fileName" is written.
+
+sample1.js
+```javascript
+const text = "Hello World!";
+export default text;
+```
+
+sample2.js
+```javascript
+import text from "./sample1.js";
+console.log(text);
+```
+
+```console
+Hello World!
+```
+
+Sebagai contoh, saya akan mengganti kode ini
+
+script.js
+```javascript
+import Dog from "./dog";
+
+const dog = new Dog("Leo", 4, "Chihuahua");
+dog.info();
+```
+
+dengan menambahkan file baru ```dogData.js```
+
+dogData.js
+```javascript
+import Dog from "./dog";
+const dog = new Dog("Leo", 4, "Chihuahua");
+export default dog;
+```
+
+script.js
+```javascript
+import dog from "./dogData";
+dog.info();
+```
+
+### Named Export
+
+The export default statement is called a default export. With default export, when a file is imported, the export default value is automatically imported. Because of this, the value name when exporting and importing can be different.
+
+![](/img/v-exportdefault.png)
+
+Kita bisa mengatasi ini dengan struktur code seperti ini:
+
+![](/img/v-namedexport2.png)
+
+dogData.js
+```javascript
+import Dog from "./dog";
+
+// Note the 2 constants dog1 and dog2 below
+const dog1 = new Dog("Leo", 4, "Chihuahua");
+const dog2 = new Dog("Ben", 2, "Poodle");
+
+// Rewrite the below and export the constants dog1 and dog2
+export {dog1, dog2};
+```
+
+script.js
+```javascript
+// Rewrite the below and import the constants dog1 and dog2
+import {dog1, dog2} from "./dogData";
+
+// Copy from the instructions and rewrite it so that the constants dog1 and dog2 are printed
+console.log("---------");
+dog1.info();
+console.log("---------");
+dog2.info();
+```
+
+console
+```
+// Rewrite the below and import the constants dog1 and dog2
+import {dog1, dog2} from "./dogData";
+
+// Copy from the instructions and rewrite it so that the constants dog1 and dog2 are printed
+console.log("---------");
+dog1.info();
+console.log("---------");
+dog2.info();
+```
+
+### Relative Path
+
+./ with one dot means the current directory of the file where the relative path is written. The relative path shown below on the right, "./dogData" is for the dogData.js file in the same src directory as script.js.
+
+![](/img/v-relativepath1.png)
+
+In order to practice relative paths, let's try changing the directory structure we have used up until now. As shown on the left, let's look at the relative path when importing dogData.js from the data directory to script.js.
+
+![](/img/v-relativepath2.png)
+
+When going back one level use "../" with two dots.
+When importing "dog.js" from the class directory to "dogData.js" as shown on the left, the relative path will be as shown on the right.
+
+![](/img/v-relativepath3.png)
+
+![](/img/v-path.png)
+
+script.js
+```javascript
+// Rewrite "./dogData" (relative path)
+import { dog1, dog2 } from "./data/dogData";
+
+console.log("---------");
+dog1.info();
+console.log("---------");
+dog2.info();
+```
+
+dogData.js
+```javascript
+// Rewrite "./dog" (relative path)
+import Dog from "../class/dog";
+
+const dog1 = new Dog("Leo", 4, "Chihuahua");
+const dog2 = new Dog("Ben", 2, "Poodle");
+
+export { dog1, dog2 };
+```
+
+## Packages
+
+In the world of JavaScript, many people make their code open and publicly available as packages. With JavaScript, you can use packages by importing them to your own code. In this lesson, you will learn to use packages like the ones below.
+
+### Importing Packages
+
+In order to use packages in your own program, use import to import the package. When importing packages, specify the package name rather than the file name. Here, we will import a package called chalk.
+
+```javascript
+import chalk from "chalk";
+```
+
+How to use chalk package?
+
+```javascript
+import chalk from "chalk";
+console.log(chalk.yellow("Hello World!"));
+console.log(chalk.bgCyan("Hello World!"));
+```
+
+Example:
+
+dog.js
+```javascript
+// Import the chalk package
+import chalk from "chalk";
+
+import Animal from "./animal";
+
+class Dog extends Animal {
+  constructor(name, age, breed) {
+    super(name, age);
+    this.breed = breed;
+  }
+
+  info() {
+    const humanAge = this.getHumanAge();
+    
+    this.greet();
+    // Rewrite the content of console.log using chalk
+    console.log(chalk.yellow(`My name is ${this.name}`));
+    
+    // Rewrite the content of console.log using chalk
+    console.log(chalk.bgCyan(`I am a ${this.breed}`));
+    
+    console.log(`I'm ${this.age} years old`);
+     console.log(`I am ${humanAge} years old in human years`);
+  }
+  
+  getHumanAge() {
+    return this.age * 7;
+  }
+}
+
+export default Dog;
+```
+
+### readline-sync
+
+Importing the readline-sync package, you will be able to enter values in the console and use those values in your program.
+Import the package as shown on the left, then write readlineSync.question(question). When the question is printed, the code pauses until a value is entered.
+
+dogData.js
+```javascript
+import readlineSync from "readline-sync";
+readlineSync.question("Enter your name: ");
+```
+
+```console
+Enter your name:
+```
+
+dogData.js
+```javascript
+import readlineSync from "readline-sync";
+const name = readlineSync.question("Enter your name: ");
+console.log(`${name} was entered`)
+```
+
+```console
+Enter your name: Ken
+Ken was entered
+```
+
+### Inserting Integer on readline-sync
+
+Although we used question in the previous slide, when you want to enter integers, questionInt can be used. All you have to do is create a Dog instance using the input value!
+
+dogData.js
+```javascript
+const name = readlineSync.question("Enter your name: ");
+const age = readlineSync.questionInt("Enter your age: ");
+```
+
+Coba praktekan menggunakan readline-sync
+
+dogData.js
+```javascript
+// Import readline-sync
+import readlineSync from "readline-sync";
+
+import Dog from "../class/dog";
+
+const dog1 = new Dog("Leo", 4, "Chihuahua");
+
+// Rewrite using readlineSync.question
+const name = readlineSync.question("Enter your name:");
+
+// Rewrite using readlineSync.questionInt
+const age = readlineSync.questionInt("Enter your age:");
+
+// Rewrite using readlineSync.question
+const breed =  readlineSync.question("Enter your breed:");
+
+const dog2 = new Dog(name, age, breed);
+
+export { dog1, dog2 };
+```
