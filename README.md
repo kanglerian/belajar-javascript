@@ -1750,3 +1750,267 @@ const dog2 = new Dog(name, age, breed);
 
 export { dog1, dog2 };
 ```
+
+# JavaScript Study VI (Handling Arrays)
+
+Let's learn about methods for working with arrays! With these methods, you'll be able to easily handle data with JavaScript.
+The methods we'll cover in this lesson are very useful and essential knowledge for practical JavaScript development.
+
+## Push Method
+
+```javascript
+const numbers = [1,2,3];
+console.log(numbers);
+number.push(4);
+console.log(numbers);
+```
+
+```console
+[1,2,3]
+[1,2,3,4]
+```
+
+## forEach Method
+
+```javascript
+const numbers = [1,2,3];
+numbers.forEach((number) => {
+  console.log(number)
+});
+```
+
+```console
+1
+2
+3
+```
+
+## find Method
+
+```javascript
+const numbers = [1,3,5,7];
+const foundNumber = numbers.find((number) => {
+  return number > 3;
+});
+console.log(foundNumber);
+```
+
+```console
+5
+```
+
+```javascript
+const characters = [
+  {id:1, name:"Uzumaki Boruto"},
+  {id:2, name:"Uchiha Sarada"},
+];
+const foundCharacter = characters.find((character) => {
+  return character.id === 1;
+});
+console.log(foundCharacter.name);
+```
+
+```console
+Uzumaki Boruto
+```
+
+## filter Method
+
+```javascript
+const numbers = [1,3,5,7];
+const filteredNumbers = numbers.filter((number) => {
+  return number > 3;
+});
+console.log(filteredNumbers);
+```
+
+```console
+[5,7]
+```
+
+```javascript
+const characters = [
+  {name:"Uzumaki Boruto",age:16},
+  {name:"Uzumaki Himawari",age:5},
+  {name:"Tsunade Senju",age:80}
+];
+const filteredCharacters = characters.filter((character) => {
+  return character.age > 10;
+});
+console.log(filteredharacters[0].name);
+```
+
+```console
+Uzumaki Boruto
+```
+
+## map Method
+
+```javascript
+const numbers = [1,2,3];
+const doubledNumbers = numbers.map((number) => {
+  return number * 2;
+});
+console.log(doubledNumbers);
+```
+
+```console
+[2,4,6]
+```
+
+```javascript
+const characters = [
+  {firstName:"Uzumaki", lastName:"Boruto"},
+  {firstName:"Uchiha", lastName:"Sarada"},
+  {firstName:"Senju", lastName:"Tsunade"}
+];
+const fullNames = characters.map((name) => {
+  return name.firstName + " " + name.lastName;
+});
+console.log(fullNames[0]);
+```
+
+```console
+Uzumaki Boruto
+```
+
+# JavaScript VII (callback Function)
+
+In this lesson, you will learn about callback functions.
+They may seem hard until you get used to them at first, but relax and take your time.
+
+"Callback functions frequently appear when using JavaScript. They are useful when creating web applications." - Master Wooly
+"I would expect so. Functions that are passed to other functions as arguments are called callback functions." - Master Wooly
+
+![](/img/vii-typesArguments.png)
+
+![](/img/vii-passedArgument.png)
+
+![](/img/vii-calling.png)
+
+![](/img/vii-flow.png)
+
+```javascript
+const printKen = () => {
+  console.log("Ken the Ninja");
+};
+
+// Add a parameter named callback to call
+const call = (callback) => {
+  console.log("Calling the callback function.");
+  // Call the function callback
+  callback();
+};
+
+// Pass printKen as the argument and run call
+call(printKen);
+```
+
+```console
+Calling the callback function.
+Ken the Ninja
+```
+
+## Declaring the Function with Argument
+
+![](/img/vii-declaringWithArgument.png)
+
+
+```javascript
+const call = (callback) => {
+  console.log("Calling the callback function.");
+  callback();
+};
+
+call(() => {
+  console.log("Ken the Ninja");
+});
+```
+
+```console
+Calling the callback function.
+Ken the Ninja
+```
+
+```javascript
+const printKen = () => {
+  console.log("Ken the Ninja");
+};
+
+const call = (callback) => {
+  console.log("Calling the callback function.");
+  callback();
+};
+
+call(printKen);
+
+// Declare the function in the argument and pass it
+call(() => {
+  console.log("Master Wooly");
+});
+```
+
+```console
+Calling the callback function.
+Ken the Ninja
+Calling the callback function.
+Master Wooly
+```
+
+## Arguments of Callback Function
+
+![](/img/vii-normalFunctions.png)
+
+![](/img/vii-callbackFunction.png)
+
+### Normal Function
+
+```javascript
+const introduce = (name) => {
+  console.log(name);
+};
+introduce("Ken the Ninja");
+```
+
+```console
+Ken the Ninja
+```
+
+```javascript
+const introduce = (name,age) => {
+  console.log(`${name} is ${age} years old.`);
+};
+introduce("Ken the Ninja",14);
+```
+
+```console
+Ken the Ninja is 14 years old.
+```
+
+### Callback Function
+
+```javascript
+const introduce = (callback) => {
+  callback("Ken the Ninja");
+};
+introduce((name) => {
+  console.log(name);
+});
+```
+
+```console
+Ken the Ninja
+```
+
+```javascript
+const introduce = (callback) => {
+  callback("Ken the Ninja",14);
+};
+introduce((name,age) => {
+  console.log(`${name} is ${age} years old.`);
+});
+```
+
+```console
+Ken the Ninja is 14 years old.
+```
